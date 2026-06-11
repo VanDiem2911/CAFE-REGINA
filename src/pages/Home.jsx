@@ -5,19 +5,30 @@ import ScrollReveal from '../components/ScrollReveal';
 export default function Home({ onNavigate, onSelectEvent }) {
     const eventsRef = useRef(null);
     const galleryRef = useRef(null);
+    const galleryIdxRef = useRef(0);
+    const eventsIdxRef = useRef(0);
 
     const scrollEvents = (direction) => {
-        eventsRef.current?.scrollBy({
-            left: direction * 310,
-            behavior: 'smooth',
-        });
+        const container = eventsRef.current;
+        if (!container) return;
+        const children = Array.from(container.children);
+        if (!children.length) return;
+        const total = children.length;
+        const next = Math.max(0, Math.min(total - 1, eventsIdxRef.current + direction));
+        eventsIdxRef.current = next;
+        container.scrollLeft = children[next].offsetLeft;
     };
 
     const scrollGallery = (direction) => {
-        galleryRef.current?.scrollBy({
-            left: direction * 221,
-            behavior: 'smooth',
-        });
+        const container = galleryRef.current;
+        if (!container) return;
+        const children = Array.from(container.children);
+        if (!children.length) return;
+        const total = children.length;
+        const step = window.innerWidth < 768 ? 2 : 1;
+        const next = Math.max(0, Math.min(total - 1, galleryIdxRef.current + direction * step));
+        galleryIdxRef.current = next;
+        container.scrollLeft = children[next].offsetLeft;
     };
 
     return (
@@ -28,7 +39,7 @@ export default function Home({ onNavigate, onSelectEvent }) {
                     className="w-full bg-cover bg-top bg-no-repeat"
                     style={{ backgroundImage: `linear-gradient(to bottom, rgba(11, 11, 11, 0) 70%, #0B0B0B 100%), url('/Group 8723.png')` }}
                 >
-                    <div className="mx-auto w-full max-w-[1200px] relative aspect-[375/750] sm:aspect-[640/800] md:aspect-[768/900] lg:aspect-[1440/1123] block px-0 pb-0 pt-0">
+                    <div className="mx-auto w-full max-w-[1200px] relative aspect-[375/560] sm:aspect-[640/800] md:aspect-[768/900] lg:aspect-[1440/1123] block px-0 pb-0 pt-0">
 
                         {/* Responsive Absolute Positioning System */}
                         <div className="block w-full h-full">
@@ -37,7 +48,7 @@ export default function Home({ onNavigate, onSelectEvent }) {
                             <div className="absolute inset-0 block z-10 pointer-events-none">
 
                                 {/* Elegant Header Title Block */}
-                                <ScrollReveal direction="left" className="absolute top-[7.5%] left-[6%] w-[88%] flex flex-col select-none lg:top-[17%] lg:left-0 lg:w-[350px] pointer-events-auto">
+                                <ScrollReveal direction="left" className="absolute top-[10%] sm:top-[7.5%] left-[6%] w-[88%] flex flex-col select-none lg:top-[17%] lg:left-0 lg:w-[350px] pointer-events-auto">
                                     <div className="flex items-center gap-2 sm:gap-4 w-full">
                                         <span className="text-lg sm:text-2xl lg:text-3xl tracking-[0.25em] uppercase font-light text-white font-serif">Cafe</span>
                                         <div className="flex-grow h-[1px] bg-[#F3EFE9]/20" />
@@ -55,7 +66,7 @@ export default function Home({ onNavigate, onSelectEvent }) {
                                 <ScrollReveal
                                     direction="left"
                                     delay={200}
-                                    className="group absolute left-[7%] top-[45%] w-[8%] h-auto cursor-pointer shadow-2xl transition-all duration-300 sm:w-[18%] md:w-[20%] lg:left-[6.94%] lg:top-[58%] lg:w-[17.78%] pointer-events-auto"
+                                    className="group absolute left-[12%] top-[45%] sm:top-[33.5%] w-[16%] h-auto cursor-pointer shadow-2xl transition-all duration-300 sm:w-[18%] md:w-[20%] lg:left-[6.94%] lg:top-[58%] lg:w-[17.78%] pointer-events-auto"
                                     onClick={() => onNavigate('drinks')}
                                     style={{ aspectRatio: '256/373' }}
                                 >
@@ -75,7 +86,7 @@ export default function Home({ onNavigate, onSelectEvent }) {
                                 <ScrollReveal
                                     direction="up"
                                     duration={1000}
-                                    className="absolute left-[32%] top-[14%] w-[36%] h-auto select-none overflow-visible shadow-2xl animate-scale-up sm:left-[28%] sm:w-[45%] md:left-[27%] md:w-[46%] lg:left-[29.5%] lg:top-[12.2%] lg:w-[40.7%] flex pointer-events-auto"
+                                    className="absolute left-[30%] top-[18.7%] sm:top-[14%] w-[46%] h-auto select-none overflow-visible shadow-2xl animate-scale-up sm:left-[28%] sm:w-[45%] md:left-[27%] md:w-[46%] lg:left-[29.5%] lg:top-[12.2%] lg:w-[40.7%] flex pointer-events-auto"
                                     style={{ aspectRatio: '586/886' }}
                                 >
                                     <img
@@ -95,7 +106,7 @@ export default function Home({ onNavigate, onSelectEvent }) {
                                 </ScrollReveal>
 
                                 {/* Slide Navigation Indicator: 01 ──────────────── 02 03 04 05 */}
-                                <div className="absolute top-[92%] left-[20%] w-[60%] flex items-center justify-center gap-3 sm:gap-5 select-none font-sans text-[9px] sm:text-xs font-black tracking-widest sm:left-[24%] sm:w-[52%] md:left-[27%] md:w-[46%] lg:top-auto lg:bottom-[4.7%] lg:left-[29.5%] lg:w-[40.7%] pointer-events-auto">
+                                <div className="absolute top-[70%] sm:top-[52%] md:top-[52%] left-[20%] w-[60%] flex items-center justify-center gap-3 sm:gap-5 select-none font-sans text-[9px] sm:text-xs font-black tracking-widest sm:left-[24%] sm:w-[52%] md:left-[27%] md:w-[46%] lg:top-auto lg:bottom-[4.7%] lg:left-[29.5%] lg:w-[40.7%] pointer-events-auto">
                                     <button
                                         onClick={() => onNavigate('home')}
                                         className="text-white hover:text-cafe-gold transition-colors font-black"
@@ -137,7 +148,7 @@ export default function Home({ onNavigate, onSelectEvent }) {
                                 {/* Medium Arch Visual (Rectangle 17.png) */}
                                 <ScrollReveal
                                     direction="right"
-                                    className="group absolute right-[8%] top-[20%] w-[16%] h-auto cursor-pointer shadow-2xl transition-all duration-300 sm:w-[15%] md:w-[20%] lg:right-auto lg:left-[74.375%] lg:top-[12.29%] lg:w-[18.68%] pointer-events-auto"
+                                    className="group absolute right-[6%] top-[24%] sm:top-[18%] w-[16%] h-auto cursor-pointer shadow-2xl transition-all duration-300 sm:w-[15%] md:w-[20%] lg:right-auto lg:left-[74.375%] lg:top-[12.29%] lg:w-[18.68%] pointer-events-auto"
                                     onClick={() => onNavigate('drinks')}
                                     style={{ aspectRatio: '269/402' }}
                                 >
@@ -149,7 +160,7 @@ export default function Home({ onNavigate, onSelectEvent }) {
                                 </ScrollReveal>
 
                                 {/* Description Text */}
-                                <ScrollReveal direction="right" delay={200} className="absolute left-[6%] top-[72%] right-[6%] w-[88%] text-left lg:left-[76.5%] lg:top-[65.5%] lg:bottom-auto lg:w-[16.5%] pointer-events-auto">
+                                <ScrollReveal direction="right" delay={200} className="absolute left-[6%] top-[72.3%] sm:top-[54%] md:top-[54%] right-[6%] w-[88%] text-left lg:left-[76.5%] lg:top-[65.5%] lg:bottom-auto lg:w-[16.5%] pointer-events-auto">
                                     <p className="text-center lg:text-justify font-sans text-[9px] sm:text-xs font-light leading-relaxed text-[#F3EFE9]/70 md:text-sm">
                                         Café Regina is not only the oldest, but also the nicest café in Zelzate and the surrounding area.
                                         So be sure to come by and enjoy a good time!
@@ -355,11 +366,11 @@ export default function Home({ onNavigate, onSelectEvent }) {
                                 </button>
                             </ScrollReveal>
                             <ScrollReveal direction="up" delay={200} className="w-full mt-2 sm:mt-4">
-                                <div className="w-full overflow-x-auto overflow-y-hidden no-scrollbar flex justify-start sm:justify-center pb-4 px-6">
+                                <div className="w-full flex justify-center pb-2 px-6">
                                     <img
                                         src="/Group 8731.png"
                                         alt="Weekend drinks and food selection"
-                                        className="h-auto w-full min-w-[700px] max-w-[1050px] object-contain shrink-0 transition-transform duration-700 hover:scale-[1.03] cursor-pointer"
+                                        className="h-auto w-full max-w-[1050px] object-contain transition-transform duration-700 hover:scale-[1.03] cursor-pointer"
                                         onClick={() => onNavigate('suggestions')}
                                     />
                                 </div>
@@ -471,7 +482,7 @@ export default function Home({ onNavigate, onSelectEvent }) {
 
                         <div
                             ref={eventsRef}
-                            className="flex snap-x snap-mandatory gap-7 overflow-x-auto pb-8 no-scrollbar"
+                            className="flex snap-x snap-mandatory gap-7 overflow-x-auto pb-8 no-scrollbar scroll-smooth"
                         >
                             {[
                                 { id: 1, src: '/Rectangle 62.png', title: 'Lorem Ipsum Dolor' },
@@ -524,25 +535,25 @@ export default function Home({ onNavigate, onSelectEvent }) {
                             <div className="h-px w-full bg-white/10" />
 
                             <div className="grid items-center overflow-hidden bg-transparent py-14 lg:grid-cols-[294px_minmax(0,1fr)] lg:py-16">
-                                <ScrollReveal direction="left" className="flex flex-col items-start justify-center bg-transparent px-7 py-10 text-left lg:py-8">
-                                    <h2 className="mb-4 font-serif text-3xl font-light tracking-wide text-white">
+                                <ScrollReveal direction="left" className="relative z-20 flex flex-col items-start justify-center bg-transparent px-7 py-10 text-left lg:py-8 lg:pointer-events-none">
+                                    <h2 className="mb-4 font-serif text-3xl font-light tracking-wide text-white lg:pointer-events-auto">
                                         Photo Gallery
                                     </h2>
-                                    <p className="mb-6 max-w-[250px] font-sans text-[10px] font-light leading-[1.65] text-[#F3EFE9]/55">
+                                    <p className="mb-6 max-w-[250px] font-sans text-[10px] font-light leading-[1.65] text-[#F3EFE9]/55 lg:pointer-events-auto">
                                         If you are looking for an authentic cafe in Zelzate, Cafe Regina is the
                                         right place for you! You can be inspired by the atmospheric photos on
                                         this page. This gives you a taste of what you can expect when you visit
                                         the cafe. So be sure to check out these photos!
                                     </p>
 
-                                    <div className="flex items-center">
+                                    <div className="relative z-30 flex items-center lg:pointer-events-auto">
                                         <button
                                             type="button"
                                             onClick={() => scrollGallery(-1)}
                                             aria-label="Previous gallery photos"
-                                            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/70 text-cafe-gold transition-all hover:border-cafe-gold hover:bg-cafe-gold hover:text-black active:scale-95"
+                                            className="flex h-10 w-10 lg:h-8 lg:w-8 items-center justify-center rounded-full border border-white/70 text-cafe-gold transition-all hover:border-cafe-gold hover:bg-cafe-gold hover:text-black active:scale-95"
                                         >
-                                            <ArrowRight className="h-3.5 w-3.5 rotate-180" />
+                                            <ArrowRight className="h-4 w-4 lg:h-3.5 lg:w-3.5 rotate-180" />
                                         </button>
                                         <span className="h-px w-12 bg-cafe-gold/80" />
                                         <span className="mx-3 h-px w-12 bg-cafe-gold/80" />
@@ -550,18 +561,17 @@ export default function Home({ onNavigate, onSelectEvent }) {
                                             type="button"
                                             onClick={() => scrollGallery(1)}
                                             aria-label="Next gallery photos"
-                                            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/70 text-cafe-gold transition-all hover:border-cafe-gold hover:bg-cafe-gold hover:text-black active:scale-95"
+                                            className="flex h-10 w-10 lg:h-8 lg:w-8 items-center justify-center rounded-full border border-white/70 text-cafe-gold transition-all hover:border-cafe-gold hover:bg-cafe-gold hover:text-black active:scale-95"
                                         >
-                                            <ArrowRight className="h-3.5 w-3.5" />
+                                            <ArrowRight className="h-4 w-4 lg:h-3.5 lg:w-3.5" />
                                         </button>
                                     </div>
                                 </ScrollReveal>
 
-                                <ScrollReveal direction="right">
-                                    <div
-                                        ref={galleryRef}
-                                        className="flex snap-x snap-mandatory gap-4 overflow-x-auto bg-transparent leading-none no-scrollbar"
-                                    >
+                                <div
+                                    ref={galleryRef}
+                                    className="flex snap-x snap-mandatory gap-4 overflow-x-auto bg-transparent leading-none no-scrollbar scroll-smooth"
+                                >
                                         {[
                                             { src: '/1.png', alt: 'Pancakes with syrup' },
                                             { src: '/2.png', alt: 'Fresh salad with orange juice' },
@@ -581,8 +591,8 @@ export default function Home({ onNavigate, onSelectEvent }) {
                                                 />
                                             </button>
                                         ))}
-                                    </div>
-                                </ScrollReveal>
+                                </div>
+
                             </div>
 
                             <div className="relative flex h-20 items-center justify-center">
